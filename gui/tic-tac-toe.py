@@ -241,11 +241,14 @@ def main():
     root_x, root_y = graph_display.draw_graph(ttt.initial)
     
     canvas = graph_display.canvas
-    
+    canvas.grid(row=0, column=0)
     scroll = Scrollbar(graph, orient = HORIZONTAL, command = canvas.xview)
-    scroll.pack(side = BOTTOM, fill = X)
+    scroll.grid(row=1, column=0, sticky="ew")
+    canvas.configure(xscrollcommand=scroll.set, scrollregion=canvas.bbox('all'))
+
+    #scroll.pack(side = BOTTOM, fill = X)
     
-    canvas.xview_moveto(1)
+    canvas.xview_moveto(.5)
     
     root.mainloop()
 

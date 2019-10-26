@@ -8,11 +8,11 @@ class MinMaxGraph:
     def __init__(self, root, game):
         self.root = root
         self.game = game
-        self.width = 300
-        self.height = 300
+        self.width = 1500
+        self.height = 1500
         # number of items in each row
         self.terminal_node_count = 0
-        self.canvas = Canvas(root, width = self.width, height = self.height,)
+        self.canvas = Canvas(root, width = self.width, height = self.height)
 
     """
     draws a graph given a root node
@@ -23,7 +23,7 @@ class MinMaxGraph:
     
         x = None
     
-        if not (self.game.terminal_test(state) or row == 4):
+        if not (self.game.terminal_test(state) or row == 9):
             child_x_values = list()
         
             legal_moves = self.game.actions(state)
@@ -45,7 +45,7 @@ class MinMaxGraph:
             
         y = row*45
         
-        self.expand_canvas(x,y)
+        #self.expand_canvas(x,y)
         state_text = tic_tac_toe_state_text(state, self.game)
         self.canvas.create_text((x,y), text = state_text)
         self.canvas.pack()
