@@ -10,7 +10,7 @@ class MinMaxGraph:
         self.game = game
         # number of items in each row
         self.terminal_node_count = 0
-        self.canvas = Canvas(root, width = 300, height = 300)
+        self.canvas = Canvas(root, width = 500, height = 500)
 
     """
     draws a graph given a root node
@@ -41,7 +41,8 @@ class MinMaxGraph:
             self.terminal_node_count += 1
             x = self.terminal_node_count * 15
             
-        y = row*50
+        y = row*40
+        
         
         state_text = tic_tac_toe_state_text(state, self.game)
         self.canvas.create_text((x,y), text = state_text)
