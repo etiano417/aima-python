@@ -5,6 +5,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from games import minimax_decision, alphabeta_player, random_player, TicTacToe
 # "gen_state" can be used to generate a game state to apply the algorithm
 from tests.test_games import gen_state
+tttgraph = __import__("tic-tac-toe_graph")
+
 
 ttt = TicTacToe()
 root = None
@@ -16,6 +18,7 @@ count = 0
 sym = ""
 result = None
 choices = None
+graph_display = None
 
 
 def create_frames(root):
@@ -214,7 +217,7 @@ def exit_game(root):
 
 
 def main():
-    global result, choices
+    global result, choices, graph_display, ttt
 
     root = Tk()
     root.title("TicTacToe")
@@ -229,6 +232,13 @@ def main():
     choices.set("Vs Pro")
     menu = OptionMenu(root, choices, "Vs Random", "Vs Pro", "Vs Legend")
     menu.pack()
+  
+    graph = Tk()
+    graph.title("MinMax Tree")
+    graph.geometry("300x300")
+    graph_display = tttgraph.MinMaxGraph(graph, ttt)
+    graph_display.draw_graph(ttt.initial)
+    
     root.mainloop()
 
 

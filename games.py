@@ -426,7 +426,7 @@ class Backgammon(StochasticGame):
 	rolling a pair of dice."""
 
     def __init__(self):
-        """Initial state of the game"""
+        """Initial /. of the game"""
         point = {'W' : 0, 'B' : 0}
         board = [point.copy() for index in range(24)]
         board[0]['B'] = board[23]['W'] = 2
