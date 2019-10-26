@@ -236,8 +236,16 @@ def main():
     graph = Tk()
     graph.title("MinMax Tree")
     graph.geometry("300x300")
+    
     graph_display = tttgraph.MinMaxGraph(graph, ttt)
-    graph_display.draw_graph(ttt.initial)
+    root_x, root_y = graph_display.draw_graph(ttt.initial)
+    
+    canvas = graph_display.canvas
+    
+    scroll = Scrollbar(graph, orient = HORIZONTAL, command = canvas.xview)
+    scroll.pack(side = BOTTOM, fill = X)
+    
+    canvas.xview_moveto(1)
     
     root.mainloop()
 

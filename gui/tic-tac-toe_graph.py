@@ -8,9 +8,11 @@ class MinMaxGraph:
     def __init__(self, root, game):
         self.root = root
         self.game = game
+        self.width = 300
+        self.height = 300
         # number of items in each row
         self.terminal_node_count = 0
-        self.canvas = Canvas(root, width = 500, height = 500)
+        self.canvas = Canvas(root, width = self.width, height = self.height,)
 
     """
     draws a graph given a root node
@@ -21,7 +23,7 @@ class MinMaxGraph:
     
         x = None
     
-        if not self.game.terminal_test(state):
+        if not (self.game.terminal_test(state) or row == 4):
             child_x_values = list()
         
             legal_moves = self.game.actions(state)
@@ -39,15 +41,27 @@ class MinMaxGraph:
         else:
             #pdb.set_trace()
             self.terminal_node_count += 1
-            x = self.terminal_node_count * 15
+            x = self.terminal_node_count * 25
             
-        y = row*40
+        y = row*45
         
-        
+        self.expand_canvas(x,y)
         state_text = tic_tac_toe_state_text(state, self.game)
         self.canvas.create_text((x,y), text = state_text)
         self.canvas.pack()
         return (x, y)
+        
+    """
+    given an x and y coordinate of a point, expand the canvas to include this point
+    with a 20 pixel margin
+    """
+    def expand_canvas(self, x, y):
+        if(x + 20 > self.width):
+            self.width += 100
+        if(y + 20 > self.height):
+            self.height += 100
+        self.canvas.configure(width=self.width, height=self.height)    
+    
      
 """
 translates the state of a tic-tac-toe game into a string
