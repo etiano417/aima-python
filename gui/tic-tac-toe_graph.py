@@ -23,7 +23,7 @@ class MinMaxGraph:
     
         x = None
     
-        if not (self.game.terminal_test(state) or row == 9):
+        if not (self.game.terminal_test(state) or row == 4):
             child_x_values = list()
         
             legal_moves = self.game.actions(state)
