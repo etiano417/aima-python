@@ -233,22 +233,25 @@ def main():
     menu = OptionMenu(root, choices, "Vs Random", "Vs Pro", "Vs Legend")
     menu.pack()
   
+
+    #from reddit post: https://www.reddit.com/r/learnpython/comments/8ohyvo/tkinter_scrollbar_in_python_36/e03ub5k?utm_source=share&utm_medium=web2x
     graph = Tk()
-    graph.title("MinMax Tree")
-    graph.geometry("300x300")
-    
-    canvas = Canvas(graph, width=1500, height=1500)
+    graph.geometry("320x240")
+
+    xscroll = Scrollbar(graph, orient=HORIZONTAL)
+    xscroll.pack(side=BOTTOM, fill=X)
+    canvas = Canvas(graph)
+    canvas.pack(fill=BOTH, expand=True)
+    canvas['xscrollcommand'] = xscroll.set
+    xscroll['command'] = canvas.xview
+    frame = Frame(canvas)
+    canvas.create_window(4, 4, window=frame, anchor='nw') # Canvas equivalent of pack()
+
+    graph.after(50, lambda: canvas.configure(scrollregion=canvas.bbox("all")))
+
     graph_display = tttgraph.MinMaxGraph(canvas, ttt)
     root_x, root_y = graph_display.draw_graph(ttt.initial)
-    
-    canvas.grid(row=0, column=0)
-    scroll = Scrollbar(graph, orient = HORIZONTAL, command = canvas.xview)
-    scroll.grid(row=1, column=0, sticky="ew")
-    canvas.configure(xscrollcommand=scroll.set, scrollregion=canvas.bbox('all'))
-
-    #scroll.pack(side = BOTTOM, fill = X)
-    
-    #canvas.xview_moveto(.5)
+    canvas.xview_moveto(.5)
     
     root.mainloop()
 
