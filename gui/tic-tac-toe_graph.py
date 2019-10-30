@@ -5,14 +5,13 @@ import pdb
 
 class MinMaxGraph:
     
-    def __init__(self, root, game):
-        self.root = root
+    def __init__(self, canvas, game):
         self.game = game
         self.width = 1500
         self.height = 1500
         # number of items in each row
         self.terminal_node_count = 0
-        self.canvas = Canvas(root, width = self.width, height = self.height)
+        self.canvas = canvas
 
     """
     draws a graph given a root node
@@ -23,7 +22,7 @@ class MinMaxGraph:
     
         x = None
     
-        if not (self.game.terminal_test(state) or row == 9):
+        if not (self.game.terminal_test(state) or row == 4):
             child_x_values = list()
         
             legal_moves = self.game.actions(state)
