@@ -232,29 +232,28 @@ def main():
     choices.set("Vs Pro")
     menu = OptionMenu(root, choices, "Vs Random", "Vs Pro", "Vs Legend")
     menu.pack()
-  
 
-    #from reddit post: https://www.reddit.com/r/learnpython/comments/8ohyvo/tkinter_scrollbar_in_python_36/e03ub5k?utm_source=share&utm_medium=web2x
     graph = Tk()
     graph.geometry("320x240")
-
-    xscroll = Scrollbar(graph, orient=HORIZONTAL)
-    xscroll.pack(side=BOTTOM, fill=X)
     canvas = Canvas(graph)
     canvas.pack(fill=BOTH, expand=True)
+    xscroll = Scrollbar(canvas, orient=HORIZONTAL)
     canvas['xscrollcommand'] = xscroll.set
+    xscroll.pack(side=BOTTOM, fill=X)
     xscroll['command'] = canvas.xview
-    frame = Frame(canvas)
-    canvas.create_window(4, 4, window=frame, anchor='nw') # Canvas equivalent of pack()
-
-    graph.after(50, lambda: canvas.configure(scrollregion=canvas.bbox("all")))
+    graph.bind('<Expose>', xview_event_handler)
+    canvas.after(50, lambda: canvas.configure(scrollregion=canvas.bbox("all")))
 
     graph_display = tttgraph.MinMaxGraph(canvas, ttt)
     root_x, root_y = graph_display.draw_graph(ttt.initial)
-    canvas.xview_moveto(.5)
-    
+
     root.mainloop()
 
+
+def xview_event_handler(e):
+    e.widget.update_idletasks()
+    e.widget.xview_moveto(.5)
+    e.widget.unbind('<Expose>')
 
 if __name__ == "__main__":
     main()
