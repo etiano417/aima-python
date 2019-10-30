@@ -237,10 +237,10 @@ def main():
     graph.title("MinMax Tree")
     graph.geometry("300x300")
     
-    graph_display = tttgraph.MinMaxGraph(graph, ttt)
+    canvas = Canvas(graph, width=1500, height=1500)
+    graph_display = tttgraph.MinMaxGraph(canvas, ttt)
     root_x, root_y = graph_display.draw_graph(ttt.initial)
     
-    canvas = graph_display.canvas
     canvas.grid(row=0, column=0)
     scroll = Scrollbar(graph, orient = HORIZONTAL, command = canvas.xview)
     scroll.grid(row=1, column=0, sticky="ew")
@@ -248,7 +248,7 @@ def main():
 
     #scroll.pack(side = BOTTOM, fill = X)
     
-    canvas.xview_moveto(.5)
+    #canvas.xview_moveto(.5)
     
     root.mainloop()
 
