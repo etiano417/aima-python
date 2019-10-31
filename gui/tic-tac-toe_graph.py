@@ -24,7 +24,7 @@ class MinMaxGraph:
         x = None
     
         #recursive case: this is not an end-state of the tic-tac-toe game
-        if not (self.game.terminal_test(state) or row == 5):
+        if not (self.game.terminal_test(state) or row == 9):
             child_x_values = list()
             child_utility_values = list()
         
@@ -65,7 +65,7 @@ class MinMaxGraph:
         state_text += '\n'
         state_text += tic_tac_toe_state_text(state, self.game)
         self.canvas.create_text((x,y), text = state_text)
-        self.canvas.pack()
+        #self.canvas.pack()
         
         
         

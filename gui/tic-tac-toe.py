@@ -232,26 +232,28 @@ def main():
     choices.set("Vs Pro")
     menu = OptionMenu(root, choices, "Vs Random", "Vs Pro", "Vs Legend")
     menu.pack()
-  
+
     graph = Tk()
-    graph.title("MinMax Tree")
-    graph.geometry("300x300")
-    
-    canvas = Canvas(graph, width=1500, height=1500)
+    graph.geometry("320x240")
+    canvas = Canvas(graph)
+    canvas.pack(fill=BOTH, expand=True)
+    xscroll = Scrollbar(canvas, orient=HORIZONTAL)
+    canvas['xscrollcommand'] = xscroll.set
+    xscroll.pack(side=BOTTOM, fill=X)
+    xscroll['command'] = canvas.xview
+    graph.bind('<Expose>', xview_event_handler)
+    canvas.after(50, lambda: canvas.configure(scrollregion=canvas.bbox("all")))
+
     graph_display = tttgraph.MinMaxGraph(canvas, ttt)
     root_x, root_y, utility = graph_display.draw_graph(ttt.initial)
-    
-    canvas.grid(row=0, column=0)
-    scroll = Scrollbar(graph, orient = HORIZONTAL, command = canvas.xview)
-    scroll.grid(row=1, column=0, sticky="ew")
-    canvas.configure(xscrollcommand=scroll.set, scrollregion=canvas.bbox('all'))
 
-    #scroll.pack(side = BOTTOM, fill = X)
-    
-    #canvas.xview_moveto(.5)
-    
     root.mainloop()
 
+
+def xview_event_handler(e):
+    e.widget.update_idletasks()
+    e.widget.xview_moveto(.5)
+    e.widget.unbind('<Expose>')
 
 if __name__ == "__main__":
     main()
