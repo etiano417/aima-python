@@ -26,6 +26,7 @@ class MinMaxGraph:
         ySpacing = 120
         currx = None
         curry = row*ySpacing
+        color = None
 
         if not (self.game.terminal_test(state)):
             child_x_values = list()
@@ -60,13 +61,21 @@ class MinMaxGraph:
         else:
             #pdb.set_trace()
             self.terminal_node_count += 1
+
             currx = self.terminal_node_count * 40
-            utility = self.game.utility(state, state.to_move)
+            utility = self.game.utility(state, 'X')
             
-        state_text = minmax_utility_label(state, self.game)
+        state_text = minmax_utility_label(state, utility); 
         state_text += '\n'
         state_text += tic_tac_toe_state_text(state, self.game)
-        self.canvas.create_text((currx,curry), text = state_text)
+        
+        #color max rows red, min rows blue
+        if(row%2 == 1):
+            color = "red"
+        else:
+            color = "blue"
+            
+        self.canvas.create_text((currx,curry), text = state_text, fill=color)
         #self.canvas.pack()
         
         return (currx, curry, utility)
@@ -87,8 +96,7 @@ def tic_tac_toe_state_text(state, game):
 """
 returns a text string indicating the min/max utility of a given node
 """
-def minmax_utility_label(state, game):
-    points = game.utility(state,state.to_move)
+def minmax_utility_label(state, points):
     player_name = ""
     if(state.to_move == 'X'):
         player_name = "Max"
