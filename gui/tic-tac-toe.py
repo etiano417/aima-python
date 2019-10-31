@@ -107,6 +107,13 @@ def on_click(button):
         return
     if 1 <= a <= 3 and 1 <= b <= 3:
         o_pos.append((a, b))
+        newState = gen_state(to_move='X', x_positions=x_pos,
+                          o_positions=o_pos)
+        #graph_display.canvas.delete("all")
+        graph_display.graph.destroy()
+        newGraphDisplay()
+        root_x, root_y, utility = graph_display.draw_graph(newState)
+
         button_to_change = get_button(a - 1, b - 1)
         if count % 2 == 0:  # Used again, will become handy when user is given the choice of turn.
             sym = "X"
@@ -233,6 +240,16 @@ def main():
     menu = OptionMenu(root, choices, "Vs Random", "Vs Pro", "Vs Legend")
     menu.pack()
 
+    newGraphDisplay()
+    initial = ttt.initial
+    root_x, root_y, utility = graph_display.draw_graph(initial)
+
+    root.mainloop()
+
+
+def newGraphDisplay():
+    global graph_display, ttt
+
     graph = Tk()
     graph.geometry("320x240")
     canvas = Canvas(graph)
@@ -247,10 +264,7 @@ def main():
     graph.bind('<Expose>', xview_event_handler)
     canvas.after(50, lambda: canvas.configure(scrollregion=canvas.bbox("all")))
 
-    graph_display = tttgraph.MinMaxGraph(canvas, ttt)
-    root_x, root_y, utility = graph_display.draw_graph(ttt.initial)
-
-    root.mainloop()
+    graph_display = tttgraph.MinMaxGraph(graph, canvas, ttt)
 
 
 def xview_event_handler(e):

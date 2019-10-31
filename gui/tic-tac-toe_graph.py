@@ -5,13 +5,14 @@ import pdb
 
 class MinMaxGraph:
     
-    def __init__(self, canvas, game):
+    def __init__(self, graph, canvas, game):
         self.game = game
         self.width = 1500
         self.height = 1500
         # number of items in each row
         self.terminal_node_count = 0
         self.canvas = canvas
+        self.graph = graph
 
     """
     draws a graph given a root node
@@ -26,7 +27,7 @@ class MinMaxGraph:
         currx = None
         curry = row*ySpacing
 
-        if not (self.game.terminal_test(state) or row == 4):
+        if not (self.game.terminal_test(state)):
             child_x_values = list()
             child_utility_values = list()
         
@@ -62,7 +63,7 @@ class MinMaxGraph:
             currx = self.terminal_node_count * 40
             utility = self.game.utility(state, state.to_move)
             
-        state_text = minmax_utility_label(state, self.game); 
+        state_text = minmax_utility_label(state, self.game)
         state_text += '\n'
         state_text += tic_tac_toe_state_text(state, self.game)
         self.canvas.create_text((currx,curry), text = state_text)
