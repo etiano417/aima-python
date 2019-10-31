@@ -20,48 +20,42 @@ class MinMaxGraph:
     """
     def draw_graph(self, state, row = 1):
     
-        x = None
-    
-        if not (self.game.terminal_test(state) or row == 4):
+        ySpacing = 120
+        currx = None
+        curry = row*ySpacing
+
+        if not (self.game.terminal_test(state)):
             child_x_values = list()
         
             legal_moves = self.game.actions(state)
+            children = []
             for move in legal_moves:
                 result_state = self.game.result(state, move)
-                
                 next_row = row + 1
-                
-                x,y = self.draw_graph(result_state, next_row)
-                child_x_values.append(x)
+                childx,childy = self.draw_graph(result_state, next_row)
+                child_x_values.append(childx)
+                children += [(childx,childy)]
                 
             mean_child_x = statistics.mean(child_x_values)
-            x = int(mean_child_x)
-            
+            currx = int(mean_child_x)
+
+            childIncrement = -27
+            currIncrement = 10
+            for child in children:
+                self.canvas.create_line(child[0], child[1]+childIncrement, currx, curry+currIncrement) 
+
         else:
             #pdb.set_trace()
             self.terminal_node_count += 1
-            x = self.terminal_node_count * 25
+            currx = self.terminal_node_count * 25
             
-        y = row*45
 
         state_text = minmax_utility_label(state, self.game);    
         state_text = tic_tac_toe_state_text(state, self.game)
-        self.canvas.create_text((x,y), text = state_text)
+        self.canvas.create_text((currx,curry), text = state_text)
         #self.canvas.pack()
-        return (x, y)
+        return (currx, curry)
         
-    """
-    given an x and y coordinate of a point, expand the canvas to include this point
-    with a 20 pixel margin
-    """
-    def expand_canvas(self, x, y):
-        if(x + 20 > self.width):
-            self.width += 100
-        if(y + 20 > self.height):
-            self.height += 100
-        self.canvas.configure(width=self.width, height=self.height)    
-    
-     
 """
 translates the state of a tic-tac-toe game into a string
 """
