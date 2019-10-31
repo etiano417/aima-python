@@ -255,8 +255,11 @@ def main():
 
 def xview_event_handler(e):
     e.widget.update_idletasks()
-    e.widget.xview_moveto(.5)
-    e.widget.unbind('<Expose>')
+    try:
+        e.widget.xview_moveto(.5)
+        e.widget.unbind('<Expose>')
+    except AttributeError:
+        pass
 
 if __name__ == "__main__":
     main()
