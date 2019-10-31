@@ -25,6 +25,7 @@ class MinMaxGraph:
         ySpacing = 120
         currx = None
         curry = row*ySpacing
+        color = None
 
         if not (self.game.terminal_test(state)):
             child_x_values = list()
@@ -66,7 +67,14 @@ class MinMaxGraph:
         state_text = minmax_utility_label(state, utility); 
         state_text += '\n'
         state_text += tic_tac_toe_state_text(state, self.game)
-        self.canvas.create_text((currx,curry), text = state_text)
+        
+        #color max rows red, min rows blue
+        if(row%2 == 1):
+            color = "red"
+        else:
+            color = "blue"
+            
+        self.canvas.create_text((currx,curry), text = state_text, fill=color)
         #self.canvas.pack()
         
         return (currx, curry, utility)
