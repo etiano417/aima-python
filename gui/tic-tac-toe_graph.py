@@ -26,7 +26,7 @@ class MinMaxGraph:
         currx = None
         curry = row*ySpacing
 
-        if not (self.game.terminal_test(state) or row == 4):
+        if not (self.game.terminal_test(state)):
             child_x_values = list()
             child_utility_values = list()
         
