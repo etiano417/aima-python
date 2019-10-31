@@ -47,7 +47,7 @@ class MinMaxGraph:
         state_text = minmax_utility_label(state, self.game);    
         state_text = tic_tac_toe_state_text(state, self.game)
         self.canvas.create_text((x,y), text = state_text)
-        self.canvas.pack()
+        #self.canvas.pack()
         return (x, y)
         
     """
