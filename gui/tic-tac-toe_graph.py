@@ -57,11 +57,11 @@ class MinMaxGraph:
             #pdb.set_trace()
             self.terminal_node_count += 1
             x = self.terminal_node_count * 40
-            utility = self.game.utility(state, state.to_move)
+            utility = self.game.utility(state, 'X')
             
         y = row*55
 
-        state_text = minmax_utility_label(state, self.game); 
+        state_text = minmax_utility_label(state, utility); 
         state_text += '\n'
         state_text += tic_tac_toe_state_text(state, self.game)
         self.canvas.create_text((x,y), text = state_text)
@@ -99,8 +99,7 @@ def tic_tac_toe_state_text(state, game):
 """
 returns a text string indicating the min/max utility of a given node
 """
-def minmax_utility_label(state, game):
-    points = game.utility(state,state.to_move)
+def minmax_utility_label(state, points):
     player_name = ""
     if(state.to_move == 'X'):
         player_name = "Max"
