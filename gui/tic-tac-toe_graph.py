@@ -19,36 +19,57 @@ class MinMaxGraph:
     returns the x and y location of the object drawn
     """
     def draw_graph(self, state, row = 1):
-    
+        #note: odd rows are max, even rows are min
+        utility = None
         x = None
     
-        if not (self.game.terminal_test(state) or row == 4):
+        #recursive case: this is not an end-state of the tic-tac-toe game
+        if not (self.game.terminal_test(state) or row == 5):
             child_x_values = list()
+            child_utility_values = list()
         
+            #find all the legal moves
             legal_moves = self.game.actions(state)
             for move in legal_moves:
                 result_state = self.game.result(state, move)
                 
                 next_row = row + 1
                 
-                x,y = self.draw_graph(result_state, next_row)
+                #draw the result state of each legal move from the current node
+                #as a new node
+                x,y,utility = self.draw_graph(result_state, next_row)
                 child_x_values.append(x)
+                child_utility_values.append(utility)
                 
+            #set this nodes horizontal location to the average of its children's 
+            #horizontal locations
             mean_child_x = statistics.mean(child_x_values)
             x = int(mean_child_x)
             
+            #on max row, find the max utility of the child elements
+            if(row%2 == 1):
+                utility = max(child_utility_values)
+            #on min row, find the min utility of the child elements
+            else:
+                utility = min(child_utility_values)
+        #base case: this is an end state of the tic-tac-toe game
         else:
             #pdb.set_trace()
             self.terminal_node_count += 1
-            x = self.terminal_node_count * 25
+            x = self.terminal_node_count * 40
+            utility = self.game.utility(state, state.to_move)
             
-        y = row*45
+        y = row*55
 
-        state_text = minmax_utility_label(state, self.game);    
-        state_text = tic_tac_toe_state_text(state, self.game)
+        state_text = minmax_utility_label(state, self.game); 
+        state_text += '\n'
+        state_text += tic_tac_toe_state_text(state, self.game)
         self.canvas.create_text((x,y), text = state_text)
         self.canvas.pack()
-        return (x, y)
+        
+        
+        
+        return (x, y, utility)
         
     """
     given an x and y coordinate of a point, expand the canvas to include this point
@@ -79,7 +100,12 @@ def tic_tac_toe_state_text(state, game):
 returns a text string indicating the min/max utility of a given node
 """
 def minmax_utility_label(state, game):
-    return("")
-    
+    points = game.utility(state,state.to_move)
+    player_name = ""
+    if(state.to_move == 'X'):
+        player_name = "Max"
+    else:
+        player_name = "Min"
+    return("{}: {}".format(player_name, points))
 
 

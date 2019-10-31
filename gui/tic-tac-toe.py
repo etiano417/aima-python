@@ -239,7 +239,7 @@ def main():
     
     canvas = Canvas(graph, width=1500, height=1500)
     graph_display = tttgraph.MinMaxGraph(canvas, ttt)
-    root_x, root_y = graph_display.draw_graph(ttt.initial)
+    root_x, root_y, utility = graph_display.draw_graph(ttt.initial)
     
     canvas.grid(row=0, column=0)
     scroll = Scrollbar(graph, orient = HORIZONTAL, command = canvas.xview)
