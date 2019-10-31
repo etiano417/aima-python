@@ -238,9 +238,12 @@ def main():
     canvas = Canvas(graph)
     canvas.pack(fill=BOTH, expand=True)
     xscroll = Scrollbar(canvas, orient=HORIZONTAL)
+    yscroll = Scrollbar(canvas)
     canvas['xscrollcommand'] = xscroll.set
     xscroll.pack(side=BOTTOM, fill=X)
+    yscroll.pack(side=RIGHT, fill=Y)
     xscroll['command'] = canvas.xview
+    yscroll['command'] = canvas.yview
     graph.bind('<Expose>', xview_event_handler)
     canvas.after(50, lambda: canvas.configure(scrollregion=canvas.bbox("all")))
 

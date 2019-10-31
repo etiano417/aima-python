@@ -24,7 +24,7 @@ class MinMaxGraph:
         x = None
     
         #recursive case: this is not an end-state of the tic-tac-toe game
-        if not (self.game.terminal_test(state) or row == 9):
+        if not (self.game.terminal_test(state)):
             child_x_values = list()
             child_utility_values = list()
         
